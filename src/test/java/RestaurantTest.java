@@ -4,6 +4,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -81,6 +83,34 @@ class RestaurantTest {
         //Assert
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
+    }
+
+    @Test
+    public void get_zero_cost_if_no_item_is_selected()
+    {
+        // Arrange
+        List<String> itemsName = new ArrayList<String>();
+
+        //Act
+        int actual = restaurant.getTotalItemsCost(itemsName);
+
+        //Assert
+        assertEquals(0, actual);
+    }
+
+    @Test
+    public void get_correct_cost_when_one_or_more_items_are_selected()
+    {
+        //Arrange
+        List<String> itemsName = new ArrayList<String>();
+        itemsName.add("Sweet corn soup");
+        itemsName.add("Vegetable lasagne");
+
+        //Act
+        int actual = restaurant.getTotalItemsCost(itemsName);
+
+        //Assert
+        assertEquals(388, actual);
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
